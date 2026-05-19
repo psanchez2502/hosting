@@ -1,99 +1,356 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Web de Prueba</title>
+    <title>3D Character Artist | Porfolio</title>
+    <!-- Importación de Model Viewer para ver modelos 3D interactivos -->
+    <script type="module" src="https://unpkg.com"></script>
     <style>
-        /* Estilos globales */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+        :root {
+            --bg-color: #0a0a0c;
+            --text-color: #f5f5f7;
+            --accent-color: #00ffcc;
+            --card-bg: #141417;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Cabecera */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Navegación */
         header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 20px text-align;
-            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
         }
 
-        /* Contenedor principal */
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--text-color);
         }
 
-        /* Botón interactivo */
-        .btn {
-            display: inline-block;
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px 20px;
+        .logo span { color: var(--accent-color); }
+
+        nav a {
+            color: var(--text-color);
             text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-color); }
+
+        /* Héroe / Portada */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+        }
+
+        .hero-text {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #8a8a93;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
             border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #2980b9;
+        .cta-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
         }
 
-        /* Pie de página */
-        footer {
+        /* Visor 3D de fondo en Hero */
+        .hero-viewer {
+            position: absolute;
+            right: 5%;
+            top: 10vh;
+            width: 50%;
+            height: 80vh;
+            z-index: 1;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+        }
+
+        /* Galería de Proyectos */
+        .portfolio {
+            padding: 100px 10%;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 14px;
-            color: #7f8c8d;
+        }
+
+        .section-title span { color: var(--accent-color); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.1s ease;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateZ(30px); /* Efecto Pop-out 3D */
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .project-info p {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sobre mí y Skills */
+        .about {
+            padding: 100px 10%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text { flex: 1; }
+        .about-text p {
+            color: #8a8a93;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 204, 0.1);
+            color: var(--accent-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Contacto / Footer */
+        footer {
+            padding: 60px 10%;
+            text-align: center;
+            background: var(--bg-color);
+            border-top: 1px solid #1c1c21;
+        }
+
+        footer p { margin-bottom: 20px; color: #8a8a93; }
+
+        /* Adaptabilidad Móvil */
+        @media (max-width: 900px) {
+            header { padding: 20px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 120px; }
+            .hero-viewer { position: relative; width: 100%; height: 50vh; right: 0; top: 0; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .about { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Navegación -->
     <header>
-        <h1>¡Bienvenido a mi Web de Prueba!</h1>
-        <p>Entorno local de desarrollo y experimentación</p>
+        <div class="logo">ART<span>3D</span></div>
+        <nav>
+            <a href="#portfolio">Proyectos</a>
+            <a href="#about">Sobre Mí</a>
+            <a href="#contact">Contacto</a>
+        </nav>
     </header>
 
-    <div class="container">
-        <h2>Sección de Pruebas Básicas</h2>
-        <p>Este es un párrafo de texto para verificar los estilos, las fuentes y los márgenes de la página web. Puedes modificar este archivo para añadir tus propios componentes.</p>
+    <!-- Héroe / Portada Interactiva -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Esculpiendo Almas Digitales</h1>
+            <p>Especialista en Personajes 3D para videojuegos AAA y cine de animación. Transformo conceptos planos en geometría de alta fidelidad con topología optimizada.</p>
+            <a href="#portfolio" class="cta-btn">Ver Personajes</a>
+        </div>
         
-        <h3>Elementos incluidos:</h3>
-        <ul>
-            <li>Estructura HTML5 semántica.</li>
-            <li>Diseño limpio y adaptable a pantallas.</li>
-            <li>Script de interactividad básica incorporado.</li>
-        </ul>
+        <!-- Visor 3D Interactivo (Reemplaza 'tu_modelo.glb' con tu archivo real) -->
+        <div class="hero-viewer">
+            <model-viewer 
+                src="https://modelviewer.dev" 
+                alt="Modelo 3D del Personaje Principal"
+                auto-rotate 
+                camera-controls 
+                shadow-intensity="1"
+                interaction-prompt="none">
+            </model-viewer>
+        </div>
+    </section>
 
-        <br>
-        <!-- Botón de prueba -->
-        <button class="btn" onclick="mostrarAlerta()">Hacer clic aquí</button>
-    </div>
+    <!-- Galería / Proyectos -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="section-title">Criaturas y <span>Personajes</span></h2>
+        <div class="grid">
+            
+            <!-- Tarjeta 1 -->
+            <div class="project-card">
+                <img src="https://unsplash.com" alt="Cyberpunk Warrior" class="project-img">
+                <div class="project-info">
+                    <p>ZBrush / Substance Painter</p>
+                    <h3>Cyberpunk Warrior</h3>
+                </div>
+            </div>
 
-    <footer>
-        <p>&copy; 2026 - Creado para pruebas de desarrollo web</p>
+            <!-- Tarjeta 2 -->
+            <div class="project-card">
+                <img src="https://unsplash.com" alt="Dark Fantasy Orc" class="project-img">
+                <div class="project-info">
+                    <p>Cinematic Render / Maya</p>
+                    <h3>Dark Fantasy Orc</h3>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="project-card">
+                <img src="https://unsplash.com" alt="Sci-Fi Pilot" class="project-img">
+                <div class="project-info">
+                    <p>Game-Ready / 4K Textures</p>
+                    <h3>Sci-Fi Pilot</h3>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sobre Mí -->
+    <section class="about" id="about">
+        <div class="about-text">
+            <h2 class="section-title" style="text-align: left;">Detrás del <span>Vértice</span></h2>
+            <p>Hola, soy un Artista de Personajes 3D apasionado por la anatomía, las texturas realistas y la optimización de assets. Con más de 4 años de experiencia en la industria, traduzco concepts complejos en modelos listos para producción (Rigging y Animación).</p>
+            <p>Dominio absoluto de flujos de trabajo High-to-Low poly, horneado de texturas PBR y creación de pelo (XGen/Cards).</p>
+            
+            <div class="skills">
+                <div class="skill-tag">ZBrush</div>
+                <div class="skill-tag">Autodesk Maya</div>
+                <div class="skill-tag">Substance Painter</div>
+                <div class="skill-tag">Unreal Engine 5</div>
+                <div class="skill-tag">Marmoset Toolbag</div>
+                <div class="skill-tag">Anatomía Humana / Criaturas</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto / Cierre -->
+    <footer id="contact">
+        <p>© 2026 Tu Nombre Artístico. Todos los derechos reservados.</p>
+        <a href="mailto:tuemail@ejemplo.com" class="cta-btn">Hablemos de tu Proyecto</a>
     </footer>
 
-    <!-- Código JavaScript para interactividad -->
+    <!-- Script para Efecto Parallax / Inclinación 3D en las Tarjetas -->
     <script>
-        function mostrarAlerta() {
-            alert('¡El código JavaScript funciona correctamente!');
-        }
-    </script>
+        const cards = document.querySelectorAll('.project-card');
 
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                
+                // Calcula el ángulo de rotación basado en el ratón
+                const angleX = (yc - y) / 15;
+                const angleY = (x - xc) / 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
 </body>
 </html>

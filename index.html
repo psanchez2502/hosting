@@ -3,354 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Character Artist | Porfolio</title>
-    <!-- Importación de Model Viewer para ver modelos 3D interactivos -->
-    <script type="module" src="https://unpkg.com"></script>
+    <title>Portfolio | 3D Character Artist</title>
     <style>
+        /* Variables y tipografía estilo Apple */
         :root {
-            --bg-color: #0a0a0c;
-            --text-color: #f5f5f7;
-            --accent-color: #00ffcc;
-            --card-bg: #141417;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --bg-color: #000000;
+            --surface-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --border-radius: 18px;
+            --transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Navegación */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 12, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: var(--text-color);
-        }
-
-        .logo span { color: var(--accent-color); }
-
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover { color: var(--accent-color); }
-
-        /* Héroe / Portada */
+        /* Hero Section (Video Reel) */
         .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 10%;
             position: relative;
-        }
-
-        .hero-text {
-            max-width: 600px;
-            z-index: 2;
-        }
-
-        .hero-text h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            color: #8a8a93;
-            margin-bottom: 30px;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: transparent;
-            color: var(--accent-color);
-            border: 2px solid var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .cta-btn:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
-        }
-
-        /* Visor 3D de fondo en Hero */
-        .hero-viewer {
-            position: absolute;
-            right: 5%;
-            top: 10vh;
-            width: 50%;
+            width: 100%;
             height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.6; /* Oscurece el vídeo para legibilidad del texto */
+        }
+
+        .hero-content {
+            position: relative;
             z-index: 1;
         }
 
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            --poster-color: transparent;
-        }
-
-        /* Galería de Proyectos */
-        .portfolio {
-            padding: 100px 10%;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .section-title span { color: var(--accent-color); }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            transition: transform 0.1s ease;
-        }
-
-        .project-img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .project-card:hover .project-img {
-            transform: scale(1.05);
-        }
-
-        .project-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 25px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            transform: translateZ(30px); /* Efecto Pop-out 3D */
-        }
-
-        .project-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .project-info p {
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Sobre mí y Skills */
-        .about {
-            padding: 100px 10%;
-            background: var(--card-bg);
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .about-text { flex: 1; }
-        .about-text p {
-            color: #8a8a93;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .skill-tag {
-            background: rgba(0, 255, 204, 0.1);
-            color: var(--accent-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .hero h1 {
+            font-size: 4rem;
+            letter-spacing: -0.04em;
+            margin: 0;
             font-weight: 600;
         }
 
-        /* Contacto / Footer */
-        footer {
-            padding: 60px 10%;
-            text-align: center;
-            background: var(--bg-color);
-            border-top: 1px solid #1c1c21;
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-weight: 400;
         }
 
-        footer p { margin-bottom: 20px; color: #8a8a93; }
+        /* Galería (Grid tipo ArtStation) */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
 
-        /* Adaptabilidad Móvil */
-        @media (max-width: 900px) {
-            header { padding: 20px; }
-            .hero { flex-direction: column; text-align: center; padding-top: 120px; }
-            .hero-viewer { position: relative; width: 100%; height: 50vh; right: 0; top: 0; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .about { flex-direction: column; text-align: center; }
+        .gallery-header {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--transition);
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-info {
+            padding: 20px;
+        }
+
+        .card-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Desplegable (Modal) */
+        .modal {
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity var(--transition), visibility var(--transition);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--bg-color);
+            border-radius: 24px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .close-btn {
+            position: sticky;
+            top: 20px;
+            float: right;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-primary);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition);
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .project-images img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: block;
+        }
+        
+        /* Ocultar barra de desplazamiento en el modal para un look más limpio */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navegación -->
-    <header>
-        <div class="logo">ART<span>3D</span></div>
-        <nav>
-            <a href="#portfolio">Proyectos</a>
-            <a href="#about">Sobre Mí</a>
-            <a href="#contact">Contacto</a>
-        </nav>
+    <!-- Sección de Video Reel -->
+    <header class="hero">
+        <video autoplay muted loop playsinline>
+            <!-- Reemplaza con la ruta a tu video reel -->
+            <source src="tu-video-reel.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Tu Nombre</h1>
+            <p>3D Character Artist</p>
+        </div>
     </header>
 
-    <!-- Héroe / Portada Interactiva -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Esculpiendo Almas Digitales</h1>
-            <p>Especialista en Personajes 3D para videojuegos AAA y cine de animación. Transformo conceptos planos en geometría de alta fidelidad con topología optimizada.</p>
-            <a href="#portfolio" class="cta-btn">Ver Personajes</a>
-        </div>
-        
-        <!-- Visor 3D Interactivo (Reemplaza 'tu_modelo.glb' con tu archivo real) -->
-        <div class="hero-viewer">
-            <model-viewer 
-                src="https://modelviewer.dev" 
-                alt="Modelo 3D del Personaje Principal"
-                auto-rotate 
-                camera-controls 
-                shadow-intensity="1"
-                interaction-prompt="none">
-            </model-viewer>
-        </div>
-    </section>
-
-    <!-- Galería / Proyectos -->
-    <section class="portfolio" id="portfolio">
-        <h2 class="section-title">Criaturas y <span>Personajes</span></h2>
-        <div class="grid">
+    <!-- Galería de Proyectos -->
+    <main class="gallery-container">
+        <h2 class="gallery-header">Portfolio</h2>
+        <div class="gallery">
             
-            <!-- Tarjeta 1 -->
-            <div class="project-card">
-                <img src="https://unsplash.com" alt="Cyberpunk Warrior" class="project-img">
-                <div class="project-info">
-                    <p>ZBrush / Substance Painter</p>
-                    <h3>Cyberpunk Warrior</h3>
+            <!-- Tarjeta de Proyecto 1 -->
+            <article class="card" onclick="openModal('proyecto1')">
+                <!-- Reemplaza con tu imagen miniatura (thumbnail) -->
+                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+1" alt="Proyecto 1">
+                <div class="card-info">
+                    <h3>Personaje Sci-Fi</h3>
                 </div>
-            </div>
+            </article>
 
-            <!-- Tarjeta 2 -->
-            <div class="project-card">
-                <img src="https://unsplash.com" alt="Dark Fantasy Orc" class="project-img">
-                <div class="project-info">
-                    <p>Cinematic Render / Maya</p>
-                    <h3>Dark Fantasy Orc</h3>
+            <!-- Tarjeta de Proyecto 2 -->
+            <article class="card" onclick="openModal('proyecto2')">
+                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+2" alt="Proyecto 2">
+                <div class="card-info">
+                    <h3>Creatura Fantástica</h3>
                 </div>
-            </div>
+            </article>
 
-            <!-- Tarjeta 3 -->
-            <div class="project-card">
-                <img src="https://unsplash.com" alt="Sci-Fi Pilot" class="project-img">
-                <div class="project-info">
-                    <p>Game-Ready / 4K Textures</p>
-                    <h3>Sci-Fi Pilot</h3>
+            <!-- Tarjeta de Proyecto 3 -->
+            <article class="card" onclick="openModal('proyecto3')">
+                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+3" alt="Proyecto 3">
+                <div class="card-info">
+                    <h3>Estudio de Anatomía</h3>
                 </div>
-            </div>
+            </article>
 
         </div>
-    </section>
+    </main>
 
-    <!-- Sobre Mí -->
-    <section class="about" id="about">
-        <div class="about-text">
-            <h2 class="section-title" style="text-align: left;">Detrás del <span>Vértice</span></h2>
-            <p>Hola, soy un Artista de Personajes 3D apasionado por la anatomía, las texturas realistas y la optimización de assets. Con más de 4 años de experiencia en la industria, traduzco concepts complejos en modelos listos para producción (Rigging y Animación).</p>
-            <p>Dominio absoluto de flujos de trabajo High-to-Low poly, horneado de texturas PBR y creación de pelo (XGen/Cards).</p>
-            
-            <div class="skills">
-                <div class="skill-tag">ZBrush</div>
-                <div class="skill-tag">Autodesk Maya</div>
-                <div class="skill-tag">Substance Painter</div>
-                <div class="skill-tag">Unreal Engine 5</div>
-                <div class="skill-tag">Marmoset Toolbag</div>
-                <div class="skill-tag">Anatomía Humana / Criaturas</div>
+    <!-- Modal (Desplegable de detalles) -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="close-btn" onclick="closeModal()">✕</button>
+                <h2 id="modalTitle" class="modal-title">Título del Proyecto</h2>
+                <p id="modalDesc" class="modal-desc">Descripción del proceso y herramientas.</p>
+                
+                <div id="modalImages" class="project-images">
+                    <!-- Las imágenes se inyectan dinámicamente vía JavaScript -->
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Contacto / Cierre -->
-    <footer id="contact">
-        <p>© 2026 Tu Nombre Artístico. Todos los derechos reservados.</p>
-        <a href="mailto:tuemail@ejemplo.com" class="cta-btn">Hablemos de tu Proyecto</a>
-    </footer>
-
-    <!-- Script para Efecto Parallax / Inclinación 3D en las Tarjetas -->
     <script>
-        const cards = document.querySelectorAll('.project-card');
+        // Base de datos local de proyectos
+        const projectData = {
+            'proyecto1': {
+                title: 'Personaje Sci-Fi',
+                desc: 'Modelado de alta resolución en ZBrush, retopología en Maya. Texturizado utilizando Substance 3D Painter y renderizado final en Arnold. Flujo de trabajo optimizado para cinemáticas.',
+                images: [
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Beauty+Render',
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Wireframe',
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Turnaround'
+                ]
+            },
+            'proyecto2': {
+                title: 'Creatura Fantástica',
+                desc: 'Diseño de concepto a modelo 3D. Esculpido orgánico y pintado de texturas con Polypaint. Preparado para rigging en Blender.',
+                images: [
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Render+Frontal',
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Detalles+de+Esculpido'
+                ]
+            },
+            'proyecto3': {
+                title: 'Estudio de Anatomía',
+                desc: 'Estudio enfocado en la musculatura y proporciones humanas. Modelado tradicional en ZBrush basado en referencias fotográficas y escaneos.',
+                images: [
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Vista+Frontal',
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Vista+Trasera',
+                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Primer+Plano'
+                ]
+            }
+        };
 
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const xc = rect.width / 2;
-                const yc = rect.height / 2;
-                
-                // Calcula el ángulo de rotación basado en el ratón
-                const angleX = (yc - y) / 15;
-                const angleY = (x - xc) / 15;
-                
-                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+        const modal = document.getElementById('projectModal');
+
+        function openModal(projectId) {
+            const data = projectData[projectId];
+            if (!data) return;
+
+            // Rellenar textos
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDesc').textContent = data.desc;
+
+            // Rellenar imágenes
+            const imagesContainer = document.getElementById('modalImages');
+            imagesContainer.innerHTML = ''; // Limpiar imágenes previas
+            
+            data.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = data.title;
+                img.loading = "lazy"; // Optimización de carga
+                imagesContainer.appendChild(img);
             });
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-            });
+            // Mostrar modal y bloquear scroll del fondo
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restaurar scroll
+            
+            // Pausa breve antes de vaciar las imágenes para mantener la animación limpia
+            setTimeout(() => {
+                document.getElementById('modalImages').innerHTML = '';
+            }, 300);
+        }
+
+        // Cerrar modal al hacer clic en el fondo oscuro
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Cerrar modal con la tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
         });
     </script>
+
 </body>
 </html>

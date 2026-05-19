@@ -3,359 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | 3D Character Artist</title>
+    <title>Portfolio | Tu Nombre - 3D Character Artist</title>
     <style>
-        /* Variables y tipografía estilo Apple */
+        /* Variables y tipografía estilo Apple (San Francisco) */
         :root {
             --bg-color: #000000;
-            --surface-color: #1d1d1f;
+            --surface-color: #1c1c1e;
             --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --border-radius: 18px;
-            --transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            --text-secondary: #a1a1a6;
+            --accent-color: #0071e3;
+            --border-radius: 12px;
+            --transition: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
-        /* Hero Section (Video Reel) */
+        /* Hero / Video Reel */
         .hero {
             position: relative;
             width: 100%;
-            height: 80vh;
+            height: 85vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            text-align: center;
         }
 
         .hero video {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translateX(-50%) translateY(-50%);
             object-fit: cover;
-            z-index: 0;
-            opacity: 0.6; /* Oscurece el vídeo para legibilidad del texto */
+            filter: brightness(60%);
         }
 
         .hero-content {
-            position: relative;
-            z-index: 1;
+            text-align: center;
+            z-index: 10;
+            padding: 0 20px;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            letter-spacing: -0.04em;
-            margin: 0;
-            font-weight: 600;
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 8px;
         }
 
-        .hero p {
-            font-size: 1.5rem;
+        .hero-subtitle {
+            font-size: 24px;
             color: var(--text-secondary);
-            margin-top: 10px;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        /* Sección de Perfil */
+        .profile-section {
+            background-color: #000; /* Fondo negro puro */
+            padding: 50px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .profile-avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--text-primary);
+            background-image: url('image_0.png'); /* Ruta de tu foto */
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .profile-text {
+            color: var(--text-primary);
+        }
+
+        .profile-name {
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            font-size: 20px;
+            color: var(--text-secondary);
             font-weight: 400;
         }
 
-        /* Galería (Grid tipo ArtStation) */
-        .gallery-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 20px;
+        /* Galería (Grid) */
+        .gallery-section {
+            padding: 80px 0;
         }
 
-        .gallery-header {
-            font-size: 2rem;
+        .gallery-title {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+            font-size: 36px;
             font-weight: 600;
-            margin-bottom: 30px;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
-        .gallery {
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 24px;
         }
 
-        .card {
+        .gallery-item {
             background-color: var(--surface-color);
             border-radius: var(--border-radius);
             overflow: hidden;
             cursor: pointer;
-            transition: transform var(--transition);
+            transition: transform 0.3s var(--transition), box-shadow 0.3s var(--transition);
         }
 
-        .card:hover {
-            transform: scale(1.02);
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
-        .card img {
+        .gallery-image {
             width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            display: block;
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+            background-image: url('image_0.png'); /* Placeholder */
+            transition: transform 0.5s var(--transition);
         }
 
-        .card-info {
-            padding: 20px;
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.03);
         }
 
-        .card-info h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            font-weight: 500;
+        .gallery-info {
+            padding: 24px;
         }
 
-        /* Desplegable (Modal) */
-        .modal {
-            visibility: hidden;
-            opacity: 0;
+        .project-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .project-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Desplegable / Modal de Proyecto */
+        .project-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(0, 0, 0, 0.92);
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity var(--transition), visibility var(--transition);
-            padding: 20px;
-            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s var(--transition);
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .modal.active {
-            visibility: visible;
+        .project-modal.open {
+            display: block;
             opacity: 1;
         }
 
         .modal-content {
-            background-color: var(--bg-color);
-            border-radius: 24px;
-            max-width: 1000px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .modal-body {
+            max-width: 900px;
+            margin: 60px auto;
             padding: 40px;
+            position: relative;
         }
 
-        .close-btn {
-            position: sticky;
-            top: 20px;
-            float: right;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--text-primary);
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 32px;
+            color: var(--text-secondary);
             cursor: pointer;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--transition);
-            z-index: 2;
+            transition: color 0.2s var(--transition);
         }
 
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-header-text {
+            margin-bottom: 50px;
+            text-align: center;
         }
 
         .modal-title {
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            font-weight: 600;
-            letter-spacing: -0.03em;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.015em;
         }
 
-        .modal-desc {
+        .modal-title-artist {
+            font-size: 20px;
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 40px;
-            max-width: 800px;
+            font-weight: 400;
         }
 
-        .project-images img {
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .modal-image {
             width: 100%;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            display: block;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            background-image: url('image_0.png'); /* Placeholder */
+            height: 500px;
+            background-size: cover;
+            background-position: center;
         }
-        
-        /* Ocultar barra de desplazamiento en el modal para un look más limpio */
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
+
+        .modal-info-block {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .modal-content::-webkit-scrollbar-thumb {
-            background-color: #333;
-            border-radius: 4px;
+
+        .modal-info-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .modal-info-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0;
+            text-align: center;
+            background-color: var(--surface-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 40px; }
+            .hero-subtitle { font-size: 18px; }
+            .profile-container { flex-direction: column; text-align: center; }
+            .profile-avatar { width: 120px; height: 120px; }
+            .profile-name { font-size: 32px; }
+            .modal-content { padding: 20px; margin: 30px auto; }
+            .modal-title { font-size: 32px; }
+            .modal-image { height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sección de Video Reel -->
-    <header class="hero">
+    <section class="hero">
         <video autoplay muted loop playsinline>
-            <!-- Reemplaza con la ruta a tu video reel -->
-            <source src="tu-video-reel.mp4" type="video/mp4">
+            <source src="video-reel.mp4" type="video/mp4"> Your browser does not support the video tag.
         </video>
         <div class="hero-content">
-            <h1>Tu Nombre</h1>
-            <p>3D Character Artist</p>
+            <h1 class="hero-title">Tu Nombre</h1>
+            <p class="hero-subtitle">3D Character Artist</p>
         </div>
-    </header>
+    </section>
 
-    <!-- Galería de Proyectos -->
-    <main class="gallery-container">
-        <h2 class="gallery-header">Portfolio</h2>
-        <div class="gallery">
-            
-            <!-- Tarjeta de Proyecto 1 -->
-            <article class="card" onclick="openModal('proyecto1')">
-                <!-- Reemplaza con tu imagen miniatura (thumbnail) -->
-                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+1" alt="Proyecto 1">
-                <div class="card-info">
-                    <h3>Personaje Sci-Fi</h3>
-                </div>
-            </article>
-
-            <!-- Tarjeta de Proyecto 2 -->
-            <article class="card" onclick="openModal('proyecto2')">
-                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+2" alt="Proyecto 2">
-                <div class="card-info">
-                    <h3>Creatura Fantástica</h3>
-                </div>
-            </article>
-
-            <!-- Tarjeta de Proyecto 3 -->
-            <article class="card" onclick="openModal('proyecto3')">
-                <img src="https://via.placeholder.com/600x338/1d1d1f/f5f5f7?text=Thumbnail+3" alt="Proyecto 3">
-                <div class="card-info">
-                    <h3>Estudio de Anatomía</h3>
-                </div>
-            </article>
-
+    <section class="profile-section">
+        <div class="profile-container">
+            <div class="profile-avatar"></div>
+            <div class="profile-text">
+                <h1 class="profile-name">Tu Nombre</h1>
+                <p class="profile-title">3D Character Artist</p>
+            </div>
         </div>
-    </main>
+    </section>
 
-    <!-- Modal (Desplegable de detalles) -->
-    <div id="projectModal" class="modal">
+    <section class="gallery-section">
+        <h2 class="gallery-title">Gallery</h2>
+        <div class="gallery-container">
+            <div class="gallery-item" onclick="openModal('project1')">
+                <div class="gallery-image"></div>
+                <div class="gallery-info">
+                    <h3 class="project-title">Personaje Sci-Fi</h3>
+                    <p class="project-desc">Modelado de alta resolución en ZBrush, retopología en Maya. Texturizado utilizando Substance 3D Painter y renderizado final en Arnold. Flujo de trabajo optimizado para cinemáticas.</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('project2')">
+                <div class="gallery-image"></div>
+                <div class="gallery-info">
+                    <h3 class="project-title">Creatura Fantástica</h3>
+                    <p class="project-desc">Diseño de concepto a modelo 3D. Esculpido orgánico y pintado de texturas con Polypaint. Preparado para rigging en Blender.</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('project3')">
+                <div class="gallery-image"></div>
+                <div class="gallery-info">
+                    <h3 class="project-title">Estudio de Anatomía</h3>
+                    <p class="project-desc">Estudio enfocado en la musculatura y proporciones humanas. Modelado tradicional en ZBrush basado en referencias fotográficas y escaneos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="projectModal" class="project-modal">
         <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <div class="modal-header-text">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <p class="modal-title-artist">Tu Nombre - 3D Character Artist</p>
+            </div>
             <div class="modal-body">
-                <button class="close-btn" onclick="closeModal()">✕</button>
-                <h2 id="modalTitle" class="modal-title">Título del Proyecto</h2>
-                <p id="modalDesc" class="modal-desc">Descripción del proceso y herramientas.</p>
-                
-                <div id="modalImages" class="project-images">
-                    <!-- Las imágenes se inyectan dinámicamente vía JavaScript -->
+                <div class="modal-image"></div> <div class="modal-info-block">
+                    <h4 class="modal-info-title">Descripción y Flujo de Trabajo</h4>
+                    <p id="modalDesc" class="modal-info-text"></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer class="footer">
+        <p class="footer-text">© 2023 Tu Nombre. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Base de datos local de proyectos
-        const projectData = {
-            'proyecto1': {
+        // Datos de ejemplo para los proyectos
+        const projects = {
+            'project1': {
                 title: 'Personaje Sci-Fi',
-                desc: 'Modelado de alta resolución en ZBrush, retopología en Maya. Texturizado utilizando Substance 3D Painter y renderizado final en Arnold. Flujo de trabajo optimizado para cinemáticas.',
-                images: [
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Beauty+Render',
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Wireframe',
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Turnaround'
-                ]
+                desc: 'Este proyecto consistió en crear un personaje femenino para una cinemática de juego de ciencia ficción. El proceso incluyó esculpido de alta resolución en ZBrush para el rostro y la armadura, retopología manual en Maya para garantizar una deformación limpia, y texturizado PBR en Substance 3D Painter para un renderizado realista en Arnold.'
             },
-            'proyecto2': {
+            'project2': {
                 title: 'Creatura Fantástica',
-                desc: 'Diseño de concepto a modelo 3D. Esculpido orgánico y pintado de texturas con Polypaint. Preparado para rigging en Blender.',
-                images: [
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Render+Frontal',
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Detalles+de+Esculpido'
-                ]
+                desc: 'Un diseño de creatura orgánico y detallado. Utilicé Polypaint en ZBrush para la base de color directamente sobre el esculpido de alta resolución, luego pasé a Blender para la retopología y la creación de un rig básico para posar.'
             },
-            'proyecto3': {
+            'project3': {
                 title: 'Estudio de Anatomía',
-                desc: 'Estudio enfocado en la musculatura y proporciones humanas. Modelado tradicional en ZBrush basado en referencias fotográficas y escaneos.',
-                images: [
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Vista+Frontal',
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Vista+Trasera',
-                    'https://via.placeholder.com/1200x800/1d1d1f/f5f5f7?text=Primer+Plano'
-                ]
+                desc: 'Un estudio de torso masculino centrado en la definición muscular y las proporciones anatómicas correctas. Se basó fuertemente en referencias fotográficas clásicas y escaneos 3D para la precisión.'
             }
         };
 
-        const modal = document.getElementById('projectModal');
-
         function openModal(projectId) {
-            const data = projectData[projectId];
-            if (!data) return;
+            const modal = document.getElementById('projectModal');
+            const project = projects[projectId];
 
-            // Rellenar textos
-            document.getElementById('modalTitle').textContent = data.title;
-            document.getElementById('modalDesc').textContent = data.desc;
-
-            // Rellenar imágenes
-            const imagesContainer = document.getElementById('modalImages');
-            imagesContainer.innerHTML = ''; // Limpiar imágenes previas
-            
-            data.images.forEach(imgSrc => {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = data.title;
-                img.loading = "lazy"; // Optimización de carga
-                imagesContainer.appendChild(img);
-            });
-
-            // Mostrar modal y bloquear scroll del fondo
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            if (project) {
+                document.getElementById('modalTitle').innerText = project.title;
+                document.getElementById('modalDesc').innerText = project.desc;
+                
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+            }
         }
 
         function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restaurar scroll
-            
-            // Pausa breve antes de vaciar las imágenes para mantener la animación limpia
-            setTimeout(() => {
-                document.getElementById('modalImages').innerHTML = '';
-            }, 300);
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Restaura el scroll del fondo
         }
 
-        // Cerrar modal al hacer clic en el fondo oscuro
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
+        // Cierra el modal si se hace clic fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target == modal) {
                 closeModal();
             }
-        });
-
-        // Cerrar modal con la tecla Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-        });
+        }
     </script>
-
 </body>
 </html>
